@@ -33,7 +33,7 @@ char computer_char(char player){
 int player_move(){  
     move = -1;
     int ch;
-    while(!(move >= 1 && move <= 9)){
+    while(!(move >= 1 && move <= 9) || board[move - 1] != ' '){
         printf("Enter Your Move(1-9): ");
         if(scanf("%d", &move) != 1){
             while((ch = getchar()) != '\n' && ch != EOF);
