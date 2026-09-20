@@ -5,15 +5,15 @@
 #include<time.h>
 #include<windows.h>
 
-int move;
+int move, score = 0, comp_score = 0;
 char player, computer;
 char board[9];
 
 // Print Board in Console.
 void printBoard(char player, char computer){
     printf(" %c | %c | %c \tPlayer: %c\n", board[0], board[1], board[2], player);
-    printf("---|---|---\n");
-    printf(" %c | %c | %c \tComputer: %c\n", board[3], board[4], board[5], computer);
+    printf("---|---|---\tComputer: %c\n", computer);
+    printf(" %c | %c | %c\tScore: %d/%d\n", board[3], board[4], board[5], score, comp_score);
     printf("---|---|---\n");
     printf(" %c | %c | %c \n", board[6], board[7], board[8]);
 }
@@ -93,85 +93,92 @@ bool draw(){
 
 
 int main(){
+    char play_again;
     srand(time(NULL));
-    player = player_char();
-    computer = computer_char(player);
+    do{
+        player = player_char();
+        computer = computer_char(player);
 
-    // Fills board array with space.
-    memset(&board, ' ', sizeof(board));
+        // Fills board array with space.
+        memset(&board, ' ', sizeof(board));
 
-    while(true){
-        system("cls");
-        printf(">>TicTacToe\n");
-        printf("`````````````\n");
-        printBoard(player, computer);
-
-        player_move();
-
-        switch(move){
-            case 1:
-                board[0] = player;
-                break;
-            case 2: 
-                board[1] = player;
-                break;
-            case 3:
-                board[2] = player;
-                break;
-            case 4: 
-                board[3] = player;
-                break;
-            case 5:
-                board[4] = player;
-                break;
-            case 6: 
-                board[5] = player;
-                break;
-            case 7:
-                board[6] = player;
-                break;
-            case 8: 
-                board[7] = player;
-                break;
-            case 9:
-                board[8] = player;
-                break;
-            default:
-                printf("Wrong Input Try Again!\n");
-                Sleep(2000);
-                continue;
-        }
-
-        if(playerWins(player)){
+        while(true){
             system("cls");
             printf(">>TicTacToe\n");
             printf("`````````````\n");
             printBoard(player, computer);
-            printf("Congrats! Player '%c' Wins.\n", player);
-            break;
-        }
 
-        if(draw()){
-            system("cls");
-            printf(">>TicTacToe\n");
-            printf("`````````````\n");
-            printBoard(player, computer);
-            printf(">>Its A Draw!\n");
-            break;
-        }
-        
-        computer_move(computer);
+            player_move();
 
-        if(computerWins(computer)){
-            system("cls");
-            printf(">>TicTacToe\n");
-            printf("`````````````\n");
-            printBoard(player, computer);
-            printf("Alas! Player '%c' Lost.\n", player);
-            break;
+            switch(move){
+                case 1:
+                    board[0] = player;
+                    break;
+                case 2: 
+                    board[1] = player;
+                    break;
+                case 3:
+                    board[2] = player;
+                    break;
+                case 4: 
+                    board[3] = player;
+                    break;
+                case 5:
+                    board[4] = player;
+                    break;
+                case 6: 
+                    board[5] = player;
+                    break;
+                case 7:
+                    board[6] = player;
+                    break;
+                case 8: 
+                    board[7] = player;
+                    break;
+                case 9:
+                    board[8] = player;
+                    break;
+                default:
+                    printf("Wrong Input Try Again!\n");
+                    Sleep(2000);
+                    continue;
+            }
+
+            if(playerWins(player)){
+                system("cls");
+                printf(">>TicTacToe\n");
+                printf("`````````````\n");
+                printBoard(player, computer);
+                printf("Congrats! Player '%c' Wins.\n", player);
+                score++;
+                break;
+            }
+
+            if(draw()){
+                system("cls");
+                printf(">>TicTacToe\n");
+                printf("`````````````\n");
+                printBoard(player, computer);
+                printf(">>Its A Draw!\n");
+                break;
+            }
+            
+            computer_move(computer);
+
+            if(computerWins(computer)){
+                system("cls");
+                printf(">>TicTacToe\n");
+                printf("`````````````\n");
+                printBoard(player, computer);
+                printf("Alas! Player '%c' Lost.\n", player);
+                comp_score++;
+                break;
+            }
+            
         }
-        
-    }
+        printf("Play Again? (Y/N): ");
+        scanf("%c", &play_again);
+    }while(play_again == 'Y' || play_again == 'y');
 
     return 0;
 }
