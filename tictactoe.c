@@ -6,6 +6,7 @@
 #include<windows.h>
 
 int move, score = 0, comp_score = 0;
+bool first = true;
 char player, computer;
 char board[9];
 
@@ -47,12 +48,20 @@ int player_move(){
 
 // Calculates computer move from 1 to 9 using recursion.
 void computer_move(char computer){
+    int c_move;
     Sleep(100);
-    int c_move = rand() % 9;
-    if(board[c_move] == ' '){
+    if(first){
+        printf("Its First");
+        while(board[c_move = (rand() % 5) * 2] != ' '){
+            continue;
+        }
         board[c_move] = computer;
+        first = false;
     }else{
-        computer_move(computer);
+        while(board[c_move = rand() % 9] != ' '){
+            continue;
+        }
+        board[c_move] = computer;
     }
 }
 
@@ -176,6 +185,7 @@ int main(){
             }
             
         }
+        first = true;
         printf("Play Again? (Y/N): ");
         scanf("%c", &play_again);
     }while(play_again == 'Y' || play_again == 'y');
